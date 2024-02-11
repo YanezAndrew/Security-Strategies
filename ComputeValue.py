@@ -1,9 +1,51 @@
+import numpy as np
+from scipy.optimize import fsolve
 '''
 Skeleton code for finding security strategies.
 Please do not change the filename or the function names!
 '''
 
-import numpy as np
+def solve_row(M):
+
+    # Extract coefficients from the payoff matrix
+    a = M[0, 0]
+    b = M[1, 0]
+    c = M[0, 1]
+    d = M[1, 1]
+
+    # Define the system of equations
+    def equations(p):
+        eq1 = a * p + b * (1 - p) - (c * p + d * (1 - p))
+        return eq1
+
+    # Solve the system of equations
+    p_solution = fsolve(equations, 0.5)  # Initial guess: 0.5
+
+    # Round the solution to two decimal places
+    p_solution = round(p_solution[0], 2)
+
+    return p_solution, round(a * p_solution + b * (1 - p_solution),2)
+
+def solve_col(M):
+
+    # Extract coefficients from the payoff matrix
+    a = M[0, 0]
+    b = M[0, 1]
+    c = M[1, 0]
+    d = M[1, 1]
+    # Define the system of equations
+    def equations(q):
+        eq1 = a * q + b * (1 - q) - (c * q + d * (1 - q))
+        return eq1
+
+    # Solve the system of equations
+    q_solution = fsolve(equations, 0.5)  # Initial guess: 0.5
+
+    # Round the solution to two decimal places
+    q_solution = round(q_solution[0], 2)
+
+    return q_solution,  round(a * q_solution + b * (1 - q_solution), 2)
+
 
 def ComputeValue(M):
     '''
@@ -11,26 +53,19 @@ def ComputeValue(M):
     '''
 
     ### WRITE YOUR CODE BELOW
-    P1 = None
-    P2 = None
-    V1 = None
-    V2 = None
 
-    # Find the maximum value in each row
-    row0Min = min(M[0])
-    row1Min = min(M[1])
-    
-    col0Max = max(row[0] for row in M)
-    col1Max = max(row[1] for row in M)
-    # Find the minimum of the maximum values
-    P1 =  [[row0Min],[row1Min]]
-    P2 = [[col0Max],[col1Max]]
-
-    V1= 2
-    V2 = 2
-    
-
+    p,V1 = solve_row(M)
+    q,V2 = solve_col(M)
+    P1 = [[p], [1-p]]
+    P2 = [[q], [1-q]]
 
 
     ### DO NOT EDIT BELOW THIS LINE
     return P1, P2, V1, V2
+
+# Example usage:
+payoff_matrix = np.array([[1, 3], [4, 2]])
+print(payoff_matrix)
+print(ComputeValue(payoff_matrix))
+
+
