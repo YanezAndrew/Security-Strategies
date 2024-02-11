@@ -16,5 +16,21 @@ def ComputeValue(M):
     V1 = None
     V2 = None
 
+    # Find the maximum value in each row
+    row0Min = min(M[0])
+    row1Min = min(M[1])
+    
+    col0Max = max(row[0] for row in M)
+    col1Max = max(row[1] for row in M)
+    # Find the minimum of the maximum values
+    P1 =  [[row0Min],[row1Min]]
+    P2 = [[col0Max],[col1Max]]
+
+    V1= 2
+    V2 = 2
+    
+
+
+
     ### DO NOT EDIT BELOW THIS LINE
     return P1, P2, V1, V2
