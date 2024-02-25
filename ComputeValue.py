@@ -58,8 +58,8 @@ def ComputeValue(M):
     q,V2 = solve_col(M)
     P1 = [[p], [1-p]]
     P2 = [[q], [1-q]]
-
-
+  
+   
     ### DO NOT EDIT BELOW THIS LINE
     return P1, P2, V1, V2
 
